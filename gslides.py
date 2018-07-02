@@ -20,7 +20,9 @@ service = build('slides', 'v1', http=creds.authorize(Http()))
 
 
 def init():
-    return service.presentations().create(body={'title': str(datetime.datetime.today())[:len('YYYY-MM-DD')]}).execute()
+    return service.presentations().create(body={
+        'title': str(datetime.datetime.today())[:len('YYYY-MM-DD')]
+    }).execute()
 
 
 def new_slide(ppt, tweet, i=0):
@@ -64,6 +66,7 @@ def new_slide(ppt, tweet, i=0):
         'presentationId'), body={'requests': q}).execute()
     return s.get('replies')[0].get('createSlide').get('objectId'), i
 
+
 def new_slide_plus(ppt, tweet, i=0):
     q = [
         {
@@ -96,7 +99,9 @@ def new_slide_plus(ppt, tweet, i=0):
         }, {
             'insertText': {
                 'objectId': f'engagementBoi_{i}',
-                'text': f'{tweet["retweets"]} retweets, {tweet["favorites"]} favorites\n{tweet["replies"]} replies, {tweet["engagements"]} engagements\n{tweet["impressions"]} total impressions'
+                'text': f'''{tweet["retweets"]} retweets, {tweet["favorites"]} favorites
+                {tweet["replies"]} replies, {tweet["engagements"]} engagements
+                {tweet["impressions"]} total impressions'''
             }
         }
     ]
