@@ -34,46 +34,23 @@ def new_slide(ppt, tweet, i=0):
                 'placeholderIdMappings': [{
                     'layoutPlaceholder': {'type': 'TITLE', 'index': 0},
                     'objectId': f'titleBoi_{i}'
+                }, {
+                    'layoutPlaceholder': {'type': 'SUBTITLE', 'index': 0},
+                    'objectId': f'engagementBoi_{i}'
+                }, {
+                    'layoutPlaceholder': {'type': 'BODY', 'index': 0},
+                    'objectId': f'tweetBoi_{i}'
                 }]
             }
         }, {
             'insertText': {
                 'objectId': f'titleBoi_{i}',
-                'text': str(tweet['time'])
-            }
-        }, {
-            'createShape': {
-                'objectId': f'tweetBoi_{i}',
-                'shapeType': 'TEXT_BOX',
-                'elementProperties': {
-                    'pageObjectId': f'pageBoi_{i}',
-                    'size': {
-                        'height': {'magnitude': 200, 'unit': 'PT'},
-                        'width': {'magnitude': 400, 'unit': 'PT'}
-                    },
-                    'transform': {
-                        'scaleX': 1, 'scaleY': 1, 'translateX': 400, 'translateY': 100, 'unit': 'PT'
-                    }
-                }
+                'text': tweet['time'].strftime('%A, %-I:%M %p')
             }
         }, {
             'insertText': {
-                'objectId': f'tweetBoi_{i}', 'text': tweet['text']
-            }
-        }, {
-            'createShape': {
-                'objectId': f'engagementBoi_{i}',
-                'shapeType': 'TEXT_BOX',
-                'elementProperties': {
-                    'pageObjectId': f'pageBoi_{i}',
-                    'size': {
-                        'height': {'magnitude': 350, 'unit': 'PT'},
-                        'width': {'magnitude': 400, 'unit': 'PT'}
-                    },
-                    'transform': {
-                        'scaleX': 1, 'scaleY': 1, 'translateX': 400, 'translateY': 400, 'unit': 'PT'
-                    }
-                }
+                'objectId': f'tweetBoi_{i}',
+                'text': tweet['text']
             }
         }, {
             'insertText': {
