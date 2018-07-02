@@ -1,5 +1,5 @@
 # Tweet2Slides (formerly known as jesssmd)
-
+<!-- TODO: add better docs -->
 Quickly generating detailed reports from last week's Twitter engagement.
 
 ## Quick Start
