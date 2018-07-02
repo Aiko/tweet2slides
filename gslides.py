@@ -2,6 +2,7 @@ from apiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
 import sys
+import datetime
 
 SCOPES = "https://www.googleapis.com/auth/presentations"
 
@@ -16,30 +17,29 @@ else:
     print('Got credentials')
 
 service = build('slides', 'v1', http=creds.authorize(Http()))
-i = 0
 
 
 def init():
-    return service.presentations().create()
+    return service.presentations().create(body={'title': str(datetime.datetime.today())[:len('YYYY-MM-DD')]}).execute()
 
 
-def new_slide(ppt, tweet):
+def new_slide(ppt, tweet, i=0):
     q = [
         {
             'createSlide': {
                 'objectId': f'pageBoi_{i}',
                 'slideLayoutReference': {
-                    'predefinedLayout': 'TITLE_AND_TWO_COLUMNS'
-                }
-            },
-            'placeholderIdMappings': [{
-                'layoutPlaceholder': {'type': 'TITLE', 'index': 0},
-                'objectId': f'titleBoi_{i}'
-            }]
+                    'predefinedLayout': 'SECTION_TITLE_AND_DESCRIPTION'
+                },
+                'placeholderIdMappings': [{
+                    'layoutPlaceholder': {'type': 'TITLE', 'index': 0},
+                    'objectId': f'titleBoi_{i}'
+                }]
+            }
         }, {
             'insertText': {
                 'objectId': f'titleBoi_{i}',
-                'text': tweet['time']
+                'text': str(tweet['time'])
             }
         }, {
             'createShape': {
@@ -85,4 +85,4 @@ def new_slide(ppt, tweet):
     i += 1
     s = service.presentations().batchUpdate(presentationId=ppt.get(
         'presentationId'), body={'requests': q}).execute()
-    return s.get('replies')[0].get('createSlide').get('objectId')
+    return s.get('replies')[0].get('createSlide').get('objectId'), i

@@ -2,9 +2,12 @@ import tweepy
 import engagement_api
 from datetime import datetime, timedelta
 
-auth = tweepy.OAuthHandler(secret.consumer_key, secret.consumer_secret)
+with open('app_secret', 'r') as f:
+    consumer_key, consumer_secret = [line.strip() for line in f.readlines()[:2]]
+
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 try:
-    with open('secret','r') as f:
+    with open('token_secret','r') as f:
         access_token, access_token_secret = [line.strip() for line in f.readlines()[:2]]
         auth.set_access_token(access_token, access_token_secret)
 except:
@@ -15,7 +18,7 @@ except:
         auth.get_access_token(verifier)
     except:
         print('Failed to retrieve access token.')
-    with open('secret','w') as f:
+    with open('token_secret','w') as f:
         f.write(auth.access_token)
         f.write('\n')
         f.write(auth.access_token_secret)
