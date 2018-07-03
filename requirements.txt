@@ -3,3 +3,5 @@ oauth2client
 requests
 tweepy
 tqdm
+matplotlib
+numpy
