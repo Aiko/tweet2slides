@@ -25,6 +25,34 @@ def init():
     }).execute()
 
 
+def execute(ppt, qs):
+    return service.presentations().batchUpdate(presentationId=ppt.get(
+        'presentationId'), body={'requests': qs}).execute()
+
+
+def new_image_slide(ppt, img_url, i=0):
+    q = [
+        {
+            'createSlide': {
+                'objectId': f'pageBoi_{i}',
+                'slideLayoutReference': {
+                    'predefinedLayout': 'BLANK'
+                }
+            }
+        }, {
+            'createImage': {
+                'objectId': f'imageBoi_{i}',
+                'url': img_url,
+                'elementProperties': {
+                    'pageObjectId': f'pageBoi_{i}'
+                }
+            }
+        }
+    ]
+    i += 1
+    return q, i
+
+
 def new_slide(ppt, tweet, i=0):
     q = [
         {
@@ -47,7 +75,7 @@ def new_slide(ppt, tweet, i=0):
         }, {
             'insertText': {
                 'objectId': f'titleBoi_{i}',
-                'text': tweet['time'].strftime('%A, %-I:%M %p')
+                'text': tweet['time'].strftime('%A, %I:%M %p')
             }
         }, {
             'insertText': {
@@ -62,9 +90,7 @@ def new_slide(ppt, tweet, i=0):
         }
     ]
     i += 1
-    s = service.presentations().batchUpdate(presentationId=ppt.get(
-        'presentationId'), body={'requests': q}).execute()
-    return s.get('replies')[0].get('createSlide').get('objectId'), i
+    return q, i
 
 
 def new_slide_plus(ppt, tweet, i=0):
@@ -89,7 +115,7 @@ def new_slide_plus(ppt, tweet, i=0):
         }, {
             'insertText': {
                 'objectId': f'titleBoi_{i}',
-                'text': tweet['time'].strftime('%A, %-I:%M %p')
+                'text': tweet['time'].strftime('%A, %I:%M %p')
             }
         }, {
             'insertText': {
@@ -106,6 +132,4 @@ def new_slide_plus(ppt, tweet, i=0):
         }
     ]
     i += 1
-    s = service.presentations().batchUpdate(presentationId=ppt.get(
-        'presentationId'), body={'requests': q}).execute()
-    return s.get('replies')[0].get('createSlide').get('objectId'), i
+    return q, i
