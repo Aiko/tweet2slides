@@ -2,6 +2,8 @@
 <!-- TODO: add better docs -->
 Quickly generating detailed reports from last week's Twitter engagement.
 
+![Demo](./demo.png)
+
 ## Quick Start
 
 1. Create a Twitter app at [apps.twitter.com](https://apps.twitter.com). Take the consumer key and consumer secret and put them in a file "app_secret" separated by a line:
